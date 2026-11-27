@@ -15,6 +15,10 @@ concurrency:
 
 jobs:
   refresh:
+    # Forks lack the lockfile bot app (LOCKFILE_BOT_CLIENT_ID and
+    # LOCKFILE_BOT_PRIVATE_KEY), so the merge step fails every night there.
+    # Run only upstream, or in a fork that has set the bot up.
+    if: github.repository == 'paperclipai/paperclip' || vars.LOCKFILE_BOT_CLIENT_ID != ''
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # Holds the lockfile bot key. Restrict this environment to master so no
